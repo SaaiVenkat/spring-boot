@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
@@ -66,6 +67,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 
 /**
  * Tests for {@link CloudFoundryWebFluxEndpointHandlerMapping}.
@@ -86,6 +88,11 @@ class CloudFoundryWebFluxEndpointIntegrationTests {
 				ReactiveWebServerFactoryAutoConfiguration.class))
 		.withUserConfiguration(TestEndpointConfiguration.class)
 		.withPropertyValues("server.port=0");
+
+	@AfterEach
+	void tearDown() {
+		reset(tokenValidator);
+	}
 
 	@Test
 	void operationWithSecurityInterceptorForbidden() {
