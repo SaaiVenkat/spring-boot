@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.boot.actuate.autoconfigure.cloudfoundry.AccessLevel;
@@ -62,6 +63,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 
 /**
  * Integration tests for web endpoints exposed using Spring MVC on CloudFoundry.
@@ -73,6 +75,11 @@ class CloudFoundryMvcWebEndpointIntegrationTests {
 	private static final TokenValidator tokenValidator = mock(TokenValidator.class);
 
 	private static final CloudFoundrySecurityService securityService = mock(CloudFoundrySecurityService.class);
+
+	@AfterEach
+	void tearDown() {
+		reset(tokenValidator);
+	}
 
 	@Test
 	void operationWithSecurityInterceptorForbidden() {
